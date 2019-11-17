@@ -1,7 +1,8 @@
-package com.app.nasa.unofficial
+package com.app.nasa.unofficial.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.app.nasa.unofficial.R
 
 class MainActivity : AppCompatActivity() {
 
