@@ -51,6 +51,14 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
 
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    // Dagger Android
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
     // for arch components.. viewModel and live data
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
