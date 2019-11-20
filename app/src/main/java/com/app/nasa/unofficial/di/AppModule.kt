@@ -14,18 +14,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-@Module(includes = [ViewModelModule::class])
+@Module(includes = [ViewModelsModule::class])
 class AppModule {
 
     @Module
     companion object {
-        @Singleton
-        @Provides
-        @JvmStatic
-        fun string(): String {
-            return "Hello, I am injected"
-        }
-
         @Singleton
         @Provides
         @JvmStatic
