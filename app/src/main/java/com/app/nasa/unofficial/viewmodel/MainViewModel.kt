@@ -13,7 +13,7 @@ class MainViewModel
     private var imagesData: LiveData<Resource<List<NasaImages>>>? = null
 
     init {
-        imagesData = repo.test()
+        imagesData = repo.fetchImages()
     }
 
     fun getImageData(): LiveData<Resource<List<NasaImages>>>? {

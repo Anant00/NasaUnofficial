@@ -15,7 +15,7 @@ class NetworkRepo
     private val date: String,
     private val endDate: String
 ) {
-    fun test(): LiveData<Resource<List<NasaImages>>> {
+    fun fetchImages(): LiveData<Resource<List<NasaImages>>> {
         val nasaImages: MediatorLiveData<Resource<List<NasaImages>>> = MediatorLiveData()
         nasaImages.postValue(Resource.loading(null))
         val source = api.getImages(
