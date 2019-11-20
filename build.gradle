@@ -9,8 +9,9 @@ buildscript {
     ext.picasso_version = '2.71828'
     ext.room_version = "2.2.1"
     ext.dagger_version = "2.25.2"
-    ext.moshi_version = "1.9.0"
+    ext.moshi_version = "2.6.2"
     ext.okhttp = "4.2.2"
+    ext.corektx_version = "1.1.0"
     repositories {
         google()
         jcenter()
