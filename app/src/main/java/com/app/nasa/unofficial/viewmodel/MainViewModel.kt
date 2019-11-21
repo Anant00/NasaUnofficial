@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.repository.NetworkRepo
-import com.app.nasa.unofficial.ui.Resource
+import com.app.nasa.unofficial.repository.Resource
 import javax.inject.Inject
 
 class MainViewModel

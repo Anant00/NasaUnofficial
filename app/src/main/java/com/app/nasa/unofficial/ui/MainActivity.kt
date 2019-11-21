@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.app.nasa.unofficial.R
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.repository.NetworkRepo
+import com.app.nasa.unofficial.repository.Resource
 import com.app.nasa.unofficial.utils.Status
 import com.app.nasa.unofficial.utils.showLog
 import com.app.nasa.unofficial.viewmodel.MainViewModel
