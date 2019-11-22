@@ -22,7 +22,7 @@ class NetworkRepo
             endDate = endDate
         )
             .subscribeOn(Schedulers.io())
-            .flatMapIterable { it }
+            .flatMapIterable { it -> it.asReversed() }
             .filter {
                 it.mediaType != "video" || it.mediaType != "gif"
             }
