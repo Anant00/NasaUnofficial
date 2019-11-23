@@ -3,6 +3,7 @@ package com.app.nasa.unofficial.binding
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.app.nasa.unofficial.R
 import com.squareup.picasso.Callback
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -20,13 +21,14 @@ object BindingAdapters {
     fun loadImage(view: ImageView, imageUrl: String?) {
         Picasso.get()
             .load(imageUrl)
+            .placeholder(R.drawable.imgbg)
             .networkPolicy(NetworkPolicy.OFFLINE)
             .into(view, object : Callback {
                 override fun onSuccess() {
                 }
 
                 override fun onError(e: Exception?) {
-                    Picasso.get().load(imageUrl).into(view)
+                    Picasso.get().load(imageUrl).placeholder(R.drawable.imgbg).into(view)
                 }
             })
     }
