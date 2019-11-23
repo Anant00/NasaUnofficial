@@ -44,8 +44,8 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun showData(data: Resource<List<NasaImages>>) {
         when (data.status) {
             Status.SUCCESS -> {
-                data.data.let {
-                    imagesAdapter.submitList(it)
+                with(data.data) {
+                    imagesAdapter.submitList(this)
                     progressBar.visibility = GONE
                 }
             }
