@@ -31,7 +31,6 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding
         setViewModel()
     }
 
@@ -50,6 +49,7 @@ class MainActivity : DaggerAppCompatActivity() {
             Status.SUCCESS -> {
                 with(data.data) {
                     imagesAdapter.submitList(this)
+                    recyclerViewImages.scheduleLayoutAnimation()
                 }
             }
             Status.ERROR -> {
