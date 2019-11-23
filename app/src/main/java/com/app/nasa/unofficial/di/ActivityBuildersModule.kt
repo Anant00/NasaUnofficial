@@ -1,6 +1,6 @@
 package com.app.nasa.unofficial.di
 
-import com.app.nasa.unofficial.ui.MainActivity
+import com.app.nasa.unofficial.ui.activity.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

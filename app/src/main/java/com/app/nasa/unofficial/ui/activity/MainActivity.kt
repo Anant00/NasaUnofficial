@@ -1,4 +1,4 @@
-package com.app.nasa.unofficial.ui
+package com.app.nasa.unofficial.ui.activity
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
