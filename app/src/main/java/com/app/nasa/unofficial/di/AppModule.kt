@@ -1,7 +1,7 @@
 package com.app.nasa.unofficial.di
 
 import com.app.nasa.unofficial.api.apiservice.Api
-import com.app.nasa.unofficial.repository.NetworkRepo
+import com.app.nasa.unofficial.repository.networkbound.NetworkRepo
 import com.app.nasa.unofficial.utils.Constants
 import com.app.nasa.unofficial.utils.DateRangeUtils
 import dagger.Module
@@ -45,7 +45,11 @@ class AppModule {
         @Provides
         @JvmStatic
         fun provideNetworkRepo(api: Api, @Named("endDate") endDate: String, @Named("todayDate") todayDate: String): NetworkRepo {
-            return NetworkRepo(api, endDate, todayDate)
+            return NetworkRepo(
+                api,
+                endDate,
+                todayDate
+            )
         }
 
         @Singleton

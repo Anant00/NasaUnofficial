@@ -1,9 +1,10 @@
-package com.app.nasa.unofficial.repository
+package com.app.nasa.unofficial.repository.networkbound
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.api.apiservice.Api
+import com.app.nasa.unofficial.repository.Resource
 import com.app.nasa.unofficial.utils.toLiveData
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -22,7 +23,7 @@ class NetworkRepo
             endDate = endDate
         )
             .subscribeOn(Schedulers.io())
-            .flatMapIterable { it -> it.asReversed() }
+            .flatMapIterable { it.asReversed() }
             .filter {
                 it.mediaType != "video" && it.mediaType != "gif"
             }
