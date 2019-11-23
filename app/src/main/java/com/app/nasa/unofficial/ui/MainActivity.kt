@@ -1,6 +1,7 @@
 package com.app.nasa.unofficial.ui
 
 import android.os.Bundle
+import android.view.View.GONE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -45,10 +46,12 @@ class MainActivity : DaggerAppCompatActivity() {
             Status.SUCCESS -> {
                 data.data.let {
                     imagesAdapter.submitList(it)
+                    progressBar.visibility = GONE
                 }
             }
             Status.ERROR -> {
                 showLog(data.message!!)
+                progressBar.visibility = GONE
             }
             Status.LOADING -> {
                 showLog("Loading")

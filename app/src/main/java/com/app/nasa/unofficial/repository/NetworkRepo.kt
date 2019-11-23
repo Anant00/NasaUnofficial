@@ -24,7 +24,7 @@ class NetworkRepo
             .subscribeOn(Schedulers.io())
             .flatMapIterable { it -> it.asReversed() }
             .filter {
-                it.mediaType != "video" || it.mediaType != "gif"
+                it.mediaType != "video" && it.mediaType != "gif"
             }
             .toList()
             .toFlowable()
