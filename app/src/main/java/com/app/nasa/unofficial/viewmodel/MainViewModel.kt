@@ -3,7 +3,7 @@ package com.app.nasa.unofficial.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.app.nasa.unofficial.api.apimodel.NasaImages
-import com.app.nasa.unofficial.repository.Resource
+import com.app.nasa.unofficial.utils.Resource
 import com.app.nasa.unofficial.repository.networkbound.NetworkRepo
 import javax.inject.Inject
 

@@ -5,13 +5,13 @@
 
     <data>
 
-        <import type="com.app.nasa.unofficial.repository.Resource" />
+        <import type="com.app.nasa.unofficial.utils.Resource" />
 
         <import type="com.app.nasa.unofficial.utils.Status" />
 
         <variable
             name="resource"
-            type="Resource" />
+            type="com.app.nasa.unofficial.utils.Resource" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

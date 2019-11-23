@@ -1,6 +1,4 @@
-package com.app.nasa.unofficial.repository
-
-import com.app.nasa.unofficial.utils.Status
+package com.app.nasa.unofficial.utils
 
 data class Resource<out T>(val status: Status, val data: T?, val message: String?) {
     companion object {

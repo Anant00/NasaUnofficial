@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.api.apiservice.Api
-import com.app.nasa.unofficial.repository.Resource
+import com.app.nasa.unofficial.utils.Resource
 import com.app.nasa.unofficial.utils.toLiveData
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

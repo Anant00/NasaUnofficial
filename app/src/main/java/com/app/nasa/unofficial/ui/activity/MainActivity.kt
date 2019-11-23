@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.app.nasa.unofficial.R
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.databinding.ActivityMainBinding
-import com.app.nasa.unofficial.repository.Resource
+import com.app.nasa.unofficial.utils.Resource
 import com.app.nasa.unofficial.repository.networkbound.NetworkRepo
 import com.app.nasa.unofficial.ui.adapters.ImagesAdapter
 import com.app.nasa.unofficial.utils.Status
