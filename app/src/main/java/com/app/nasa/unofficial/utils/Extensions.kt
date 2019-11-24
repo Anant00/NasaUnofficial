@@ -9,8 +9,8 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Observable
 import org.reactivestreams.Publisher
 
-fun Any.showLog(msg: String) {
-    Log.d(this::class.java.simpleName, msg)
+fun Any.showLog(msg: String?) {
+    msg?.let { Log.d(this::class.java.simpleName, msg) }
 }
 
 fun Context.showToast(msg: String) {

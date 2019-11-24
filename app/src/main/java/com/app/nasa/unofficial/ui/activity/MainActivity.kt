@@ -16,7 +16,6 @@ import com.app.nasa.unofficial.utils.showLog
 import com.app.nasa.unofficial.viewmodel.MainViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : DaggerAppCompatActivity() {
 
@@ -35,25 +34,23 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setViewModel() {
-        recyclerViewImages.adapter = imagesAdapter
-        recyclerViewImages.setItemViewCacheSize(20)
+        binding.recyclerViewImages.adapter = imagesAdapter
+        binding.recyclerViewImages.setItemViewCacheSize(20)
         repoViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         repoViewModel.getImageData()?.observe(this, Observer {
             showData(it)
         })
     }
 
-    private fun showData(data: Resource<List<NasaImages>>) {
-        binding.resource = data
-        when (data.status) {
+    private fun showData(resource: Resource<List<NasaImages>>) {
+        binding.resource = resource
+        when (resource.status) {
             Status.SUCCESS -> {
-                with(data.data) {
-                    imagesAdapter.submitList(this)
-                    recyclerViewImages.scheduleLayoutAnimation()
-                }
+                imagesAdapter.submitList(resource.data)
+                binding.recyclerViewImages.scheduleLayoutAnimation()
             }
             Status.ERROR -> {
-                showLog(data.message!!)
+                showLog(resource.message)
             }
             Status.LOADING -> {
                 showLog("Loading")
