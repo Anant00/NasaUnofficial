@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.app.nasa.unofficial.R
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.databinding.ActivityMainBinding
-import com.app.nasa.unofficial.utils.Resource
 import com.app.nasa.unofficial.repository.networkbound.NetworkRepo
 import com.app.nasa.unofficial.ui.adapters.ImagesAdapter
+import com.app.nasa.unofficial.utils.Resource
 import com.app.nasa.unofficial.utils.Status
 import com.app.nasa.unofficial.utils.showLog
 import com.app.nasa.unofficial.viewmodel.MainViewModel
@@ -34,7 +34,6 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setViewModel() {
-        binding.recyclerViewImages.adapter = imagesAdapter
         binding.recyclerViewImages.setItemViewCacheSize(20)
         repoViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         repoViewModel.getImageData()?.observe(this, Observer {
@@ -47,6 +46,7 @@ class MainActivity : DaggerAppCompatActivity() {
         when (resource.status) {
             Status.SUCCESS -> {
                 imagesAdapter.submitList(resource.data)
+                binding.recyclerViewImages.adapter = imagesAdapter
                 binding.recyclerViewImages.scheduleLayoutAnimation()
             }
             Status.ERROR -> {
