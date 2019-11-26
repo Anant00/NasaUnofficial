@@ -1,6 +1,5 @@
 package com.app.nasa.unofficial.repository.networkbound
 
-
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.app.nasa.unofficial.utils.Resource
@@ -8,11 +7,9 @@ import com.app.nasa.unofficial.utils.Resource
 abstract class NetworkBoundResources<ResultType, RequestType> {
 
     init {
-
     }
 
     protected open fun onFetchFailed() {}
-
 
     @WorkerThread
     protected open fun processResponse(response: Resource<RequestType>) = response.data
