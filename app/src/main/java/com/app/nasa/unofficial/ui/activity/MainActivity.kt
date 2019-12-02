@@ -53,7 +53,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 showLog(resource.message)
             }
             Status.LOADING -> {
-                showLog("Loading")
+                showLog(resource.message)
             }
         }
     }
