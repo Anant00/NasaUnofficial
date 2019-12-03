@@ -21,7 +21,7 @@ class NetworkRepo
 ) {
     fun fetchImages(): LiveData<Resource<List<NasaImages>>> {
         val nasaImages: MediatorLiveData<Resource<List<NasaImages>>> = MediatorLiveData()
-        nasaImages.postValue(Resource.loading("loading", null))
+        nasaImages.postValue(Resource.loading("Loading...", null))
         val source = api.getImages(
             startDate = date,
             endDate = endDate
