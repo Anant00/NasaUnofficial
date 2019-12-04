@@ -44,18 +44,18 @@ class AppModule {
         @Singleton
         @Provides
         @JvmStatic
-        fun provideNetworkRepo(api: Api, @Named("endDate") endDate: String, @Named("todayDate") todayDate: String): NetworkRepo {
+        fun provideNetworkRepo(api: Api, @Named("startDate") startDate: String, @Named("endDate") endDate: String): NetworkRepo {
             return NetworkRepo(
                 api,
-                endDate,
-                todayDate
+                startDate,
+                endDate
             )
         }
 
         @Singleton
         @Provides
         @JvmStatic
-        @Named("todayDate")
+        @Named("endDate")
         fun provideTodayDate(): String {
             return DateRangeUtils.getTodayDate()
         }
@@ -63,7 +63,7 @@ class AppModule {
         @Singleton
         @Provides
         @JvmStatic
-        @Named("endDate")
+        @Named("startDate")
         fun provideEndDate(): String {
             return DateRangeUtils.getDaysBackDate()
         }
