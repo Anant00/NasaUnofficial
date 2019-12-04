@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.api.apiservice.Api
+import com.app.nasa.unofficial.utils.DateRangeUtils
 import com.app.nasa.unofficial.utils.Resource
 import com.app.nasa.unofficial.utils.toLiveData
 import io.reactivex.Flowable
@@ -16,8 +17,8 @@ import kotlin.math.pow
 class NetworkRepo
 @Inject constructor(
     private val api: Api,
-    private val date: String,
-    private val endDate: String
+    private var date: String,
+    private var endDate: String
 ) {
     fun fetchImages(): LiveData<Resource<List<NasaImages>>> {
         val nasaImages: MediatorLiveData<Resource<List<NasaImages>>> = MediatorLiveData()
@@ -72,5 +73,14 @@ class NetworkRepo
             nasaImages.removeSource(source)
         }
         return nasaImages
+    }
+
+    fun loadNewData(): LiveData<Resource<List<NasaImages>>> {
+        val newDates = DateRangeUtils.updateDate(date)
+        val newStartDate = newDates.startDate
+        val newEndDate = newDates.endDate
+        this.date = newStartDate
+        this.endDate = newEndDate
+        return fetchImages()
     }
 }
