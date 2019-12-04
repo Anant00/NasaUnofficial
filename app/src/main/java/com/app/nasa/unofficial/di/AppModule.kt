@@ -41,7 +41,6 @@ class AppModule {
             return OkHttpClient.Builder().addInterceptor(interceptor).build()
         }
 
-        @Singleton
         @Provides
         @JvmStatic
         fun provideNetworkRepo(api: Api, @Named("startDate") startDate: String, @Named("endDate") endDate: String): NetworkRepo {
