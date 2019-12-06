@@ -35,28 +35,31 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setRecyclerView() {
-        binding.recyclerViewImages.setItemViewCacheSize(20)
+        binding.recyclerViewImages.setItemViewCacheSize(100)
         binding.recyclerViewImages.adapter = imagesAdapter
     }
 
     private fun setViewModel() {
         repoViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         repoViewModel.getImageData()?.observe(this, Observer {
+            binding.resource = it
             showData(it)
         })
         repoViewModel.loadMoreData.observe(this, Observer {
+            binding.loadingMore = true
             showData(it)
         })
     }
 
     private fun showData(resource: Resource<List<NasaImages>>) {
-        binding.resource = resource
         when (resource.status) {
             Status.SUCCESS -> {
                 setData(resource.data)
+                binding.loadingMore = false
             }
             Status.ERROR -> {
                 showLog(resource.message)
+                binding.loadingMore = false
             }
             Status.LOADING -> {
                 showLog(resource.message)
