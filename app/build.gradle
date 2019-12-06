@@ -77,6 +77,10 @@ dependencies {
 
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
 
+    // navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
+
     //leak canary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
 
