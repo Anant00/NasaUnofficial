@@ -4,10 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.app.nasa.unofficial.R
-import com.squareup.picasso.Callback
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
-import java.lang.Exception
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 object BindingAdapters {
     @JvmStatic
@@ -17,19 +15,13 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("bind:imageUrl")
+    @BindingAdapter("imageUrl")
     fun loadImage(view: ImageView, imageUrl: String?) {
-        Picasso.get()
+        Glide
+            .with(view.context)
             .load(imageUrl)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .placeholder(R.drawable.imgbg)
-            .networkPolicy(NetworkPolicy.OFFLINE)
-            .into(view, object : Callback {
-                override fun onSuccess() {
-                }
-
-                override fun onError(e: Exception?) {
-                    Picasso.get().load(imageUrl).placeholder(R.drawable.imgbg).into(view)
-                }
-            })
+            .into(view)
     }
 }

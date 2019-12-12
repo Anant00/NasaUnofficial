@@ -35,7 +35,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.2.0-alpha01'
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
     //retrofit and coroutines
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$moshi_version"
@@ -72,6 +72,9 @@ dependencies {
 
     //picasso
     implementation "com.squareup.picasso:picasso:$picasso_version"
+    // glide
+    implementation "com.github.bumptech.glide:glide:$glide_verison"
+    kapt "com.github.bumptech.glide:compiler:$glide_verison"
 
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
 
