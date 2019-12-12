@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/pictureOfTheDay">
+
+    <fragment
+        android:id="@+id/pictureOfTheDay"
+        android:name="com.app.nasa.unofficial.ui.fragments.PictureOfTheDayFragment"
+        android:label="PictureOfTheDay" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.app.nasa.unofficial.ui.activity.MainActivity"
+        android:label="MainActivity" />
+</navigation>
