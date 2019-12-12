@@ -29,6 +29,8 @@ class MainViewModel
         }
 
     fun incrementPage(page: Int) {
-        _page.postValue(page)
+        if (page != _page.value) {
+            _page.postValue(page)
+        }
     }
 }
