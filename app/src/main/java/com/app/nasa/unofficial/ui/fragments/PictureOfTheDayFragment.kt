@@ -88,6 +88,7 @@ class PictureOfTheDayFragment : DaggerFragment() {
     private fun setData(list: List<NasaImages>?) {
         if (imagesAdapter.currentList.isNullOrEmpty()) {
             imagesAdapter.submitList(list)
+            binding.recyclerViewImages.scheduleLayoutAnimation()
         } else {
             val newList = imagesAdapter.currentList.toMutableList()
             list?.let { newList.addAll(it) }
