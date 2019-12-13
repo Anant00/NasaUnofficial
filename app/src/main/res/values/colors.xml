@@ -6,5 +6,6 @@
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#eeeeee</color>
     <color name="colorDarkGrey">#9C9C9C</color>
+    <color name="colorRippleAccent">#F37070</color>
 
 </resources>
