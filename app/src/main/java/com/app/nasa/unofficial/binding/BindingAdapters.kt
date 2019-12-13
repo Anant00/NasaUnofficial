@@ -6,7 +6,6 @@ import androidx.databinding.BindingAdapter
 import com.app.nasa.unofficial.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 
 object BindingAdapters {
     @JvmStatic
