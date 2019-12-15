@@ -23,7 +23,7 @@ class PictureOfTheDayFragment : DaggerFragment() {
     private lateinit var binding: FragmentPictureofthedayBinding
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var repoViewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
     private val imagesAdapter by lazy { ImagesAdapter() }
 
     override fun onCreateView(
@@ -49,12 +49,12 @@ class PictureOfTheDayFragment : DaggerFragment() {
     }
 
     private fun setViewModel() {
-        repoViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-        repoViewModel.getImageData()?.observe(viewLifecycleOwner, Observer {
+        mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+        mainViewModel.getImageData()?.observe(viewLifecycleOwner, Observer {
             binding.resource = it
             showData(it)
         })
-        repoViewModel.loadMoreData.observe(viewLifecycleOwner, Observer {
+        mainViewModel.loadMoreData.observe(viewLifecycleOwner, Observer {
             binding.loadingMore = true
             showData(it)
         })
@@ -80,7 +80,7 @@ class PictureOfTheDayFragment : DaggerFragment() {
         val layoutManager = binding.recyclerViewImages.layoutManager as LinearLayoutManager
         binding.recyclerViewImages.addOnScrollListener(object : EndlessScroll(layoutManager) {
             override fun onLoadMore(current_page: Int) {
-                repoViewModel.incrementPage(current_page)
+                mainViewModel.incrementPage(current_page)
             }
         })
     }
