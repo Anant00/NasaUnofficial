@@ -10,7 +10,7 @@ import com.app.nasa.unofficial.utils.Resource
 import javax.inject.Inject
 
 class MainViewModel
-@Inject constructor(private var repo: NetworkRepo) : ViewModel() {
+@Inject constructor(private val repo: NetworkRepo) : ViewModel() {
 
     private var imagesData: LiveData<Resource<List<NasaImages>>>? = null
     private val _page = MutableLiveData<Int>()

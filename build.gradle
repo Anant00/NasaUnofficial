@@ -13,6 +13,7 @@ buildscript {
     ext.navigation_version = "1.0.0"
     ext.glide_version = "4.10.0"
     ext.nav_version = "2.1.0"
+    ext.viewPager_version = "1.0.0"
     repositories {
         google()
         jcenter()
