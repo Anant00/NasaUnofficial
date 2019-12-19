@@ -1,32 +1,37 @@
 package com.app.nasa.unofficial.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.app.nasa.unofficial.api.apimodel.NasaImages
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import com.app.nasa.unofficial.repository.networkbound.NetworkRepo
-import com.app.nasa.unofficial.utils.Resource
+import com.app.nasa.unofficial.utils.showLog
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 
 class MainViewModel
 @Inject constructor(private val repo: NetworkRepo) : ViewModel() {
 
-    private var imagesData: LiveData<Resource<List<NasaImages>>>? = null
     private val _page = MutableLiveData<Int>()
+    private val initialPage = MutableLiveData<Int>()
 
     init {
-        imagesData = repo.fetchImages()
+        initialPage.value = 0
     }
 
-    fun getImageData(): LiveData<Resource<List<NasaImages>>>? {
-        return imagesData
-    }
-
-    val loadMoreData = Transformations
-        .switchMap(_page) {
-            repo.loadNewData()
+    val loadInitialData = initialPage.switchMap {
+        liveData(Dispatchers.IO) {
+            val data = repo.fetchImages()
+            emitSource(data)
         }
+    }
+
+    val loadMoreData = _page.switchMap {
+        liveData(Dispatchers.IO) {
+            val data = repo.loadNewData()
+            emitSource(data)
+        }
+    }
 
     fun incrementPage(page: Int) {
         if (page != _page.value) {

@@ -2,6 +2,7 @@ package com.app.nasa.unofficial.di
 
 import com.app.nasa.unofficial.api.apiservice.Api
 import com.app.nasa.unofficial.repository.networkbound.NetworkRepo
+import com.app.nasa.unofficial.ui.adapters.ImagesAdapter
 import com.app.nasa.unofficial.utils.Constants
 import com.app.nasa.unofficial.utils.DateRangeUtils
 import dagger.Module
@@ -65,6 +66,12 @@ class AppModule {
         @Named("startDate")
         fun provideEndDate(): String {
             return DateRangeUtils.getDaysBackDate()
+        }
+
+        @Provides
+        @JvmStatic
+        fun provideImageAdapter(): ImagesAdapter {
+            return ImagesAdapter()
         }
     }
 }

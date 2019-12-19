@@ -13,6 +13,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
+        }
     }
     androidExtensions {
         experimental = true
@@ -68,6 +71,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03"
 
     // glide
     implementation "com.github.bumptech.glide:glide:$glide_version"

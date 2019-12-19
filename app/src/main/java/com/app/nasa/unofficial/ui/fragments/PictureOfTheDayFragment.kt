@@ -24,7 +24,8 @@ class PictureOfTheDayFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mainViewModel: MainViewModel
-    private val imagesAdapter by lazy { ImagesAdapter() }
+    @Inject
+    lateinit var imagesAdapter: ImagesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +51,7 @@ class PictureOfTheDayFragment : DaggerFragment() {
 
     private fun setViewModel() {
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-        mainViewModel.getImageData()?.observe(viewLifecycleOwner, Observer {
+        mainViewModel.loadInitialData.observe(viewLifecycleOwner, Observer {
             binding.resource = it
             showData(it)
         })
@@ -88,7 +89,6 @@ class PictureOfTheDayFragment : DaggerFragment() {
     private fun setData(list: List<NasaImages>?) {
         if (imagesAdapter.currentList.isNullOrEmpty()) {
             imagesAdapter.submitList(list)
-            binding.recyclerViewImages.scheduleLayoutAnimation()
         } else {
             val newList = imagesAdapter.currentList.toMutableList()
             list?.let { newList.addAll(it) }

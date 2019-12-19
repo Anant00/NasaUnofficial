@@ -3,7 +3,6 @@ package com.app.nasa.unofficial.binding
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.app.nasa.unofficial.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
@@ -21,7 +20,6 @@ object BindingAdapters {
             .with(view.context)
             .load(imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .placeholder(R.drawable.imgbg)
             .into(view)
     }
 }
