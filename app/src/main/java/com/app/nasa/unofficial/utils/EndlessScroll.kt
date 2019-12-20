@@ -1,9 +1,9 @@
 package com.app.nasa.unofficial.utils
 
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
-abstract class EndlessScroll(private val linearLayoutManager: LinearLayoutManager) :
+abstract class EndlessScroll(private val staggeredGridLayoutManager: StaggeredGridLayoutManager) :
     RecyclerView.OnScrollListener() {
     private var previousTotal = 0
     private var loading = true
@@ -15,8 +15,8 @@ abstract class EndlessScroll(private val linearLayoutManager: LinearLayoutManage
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
         visibleItemCount = recyclerView.childCount
-        totalItemCount = linearLayoutManager.itemCount
-        firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition()
+        totalItemCount = staggeredGridLayoutManager.itemCount
+        firstVisibleItem = staggeredGridLayoutManager.findFirstVisibleItemPositions(null)[0]
         if (loading) {
             if (totalItemCount > previousTotal) {
                 loading = false

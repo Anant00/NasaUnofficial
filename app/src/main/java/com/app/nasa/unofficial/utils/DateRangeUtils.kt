@@ -17,7 +17,7 @@ object DateRangeUtils {
 
     fun getDaysBackDate(): String {
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DAY_OF_MONTH, -15)
+        cal.add(Calendar.DAY_OF_MONTH, -30)
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         formatter.timeZone = TimeZone.getTimeZone("America/California")
         return formatter.format(cal.time)

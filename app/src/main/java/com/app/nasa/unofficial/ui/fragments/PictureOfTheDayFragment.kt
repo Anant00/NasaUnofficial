@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.databinding.FragmentPictureofthedayBinding
 import com.app.nasa.unofficial.ui.adapters.ImagesAdapter
@@ -16,6 +17,8 @@ import com.app.nasa.unofficial.utils.*
 import com.app.nasa.unofficial.viewmodel.MainViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -78,7 +81,7 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     }
 
     private fun onLoadMore() {
-        val layoutManager = binding.recyclerViewImages.layoutManager as LinearLayoutManager
+        val layoutManager = binding.recyclerViewImages.layoutManager as StaggeredGridLayoutManager
         binding.recyclerViewImages.addOnScrollListener(object : EndlessScroll(layoutManager) {
             override fun onLoadMore(current_page: Int) {
                 mainViewModel.incrementPage(current_page)
