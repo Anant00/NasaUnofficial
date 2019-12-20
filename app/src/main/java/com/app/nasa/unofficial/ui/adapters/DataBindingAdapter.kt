@@ -15,7 +15,7 @@ abstract class DataBindingAdapter<T>(
     clickListener: OnRecyclerViewItemClick
 ) :
     ListAdapter<T, DataBindingAdapter.DataBindingViewHolder<T>>(diffCallback) {
-    protected val onItemClick = clickListener
+    private val onItemClick = clickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<T> {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -29,16 +29,18 @@ abstract class DataBindingAdapter<T>(
 
     class DataBindingViewHolder<T>(
         private val binding: ViewDataBinding,
-        val clickListener: OnRecyclerViewItemClick
+        private val clickListener: OnRecyclerViewItemClick
     ) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                clickListener.onItemClick(adapterPosition)
+            }
+        }
 
         fun bind(item: T) {
             binding.setVariable(BR.item, item)
             binding.executePendingBindings()
-            binding.root.setOnClickListener {
-                clickListener.onItemClick(adapterPosition)
-            }
         }
     }
 }

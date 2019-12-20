@@ -25,7 +25,7 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var imagesAdapter: ImagesAdapter
+    private val imagesAdapter by lazy { ImagesAdapter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +38,6 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        imagesAdapter = ImagesAdapter(this)
-
         setRecyclerView()
         onLoadMore()
         setViewModel()
