@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import com.app.nasa.unofficial.repository.networkbound.NetworkRepo
-import com.app.nasa.unofficial.utils.showLog
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.databinding.FragmentPictureofthedayBinding
@@ -17,6 +18,9 @@ import com.app.nasa.unofficial.utils.Status
 import com.app.nasa.unofficial.utils.showLog
 import com.app.nasa.unofficial.viewmodel.MainViewModel
 import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class PictureOfTheDayFragment : DaggerFragment() {
@@ -90,9 +94,14 @@ class PictureOfTheDayFragment : DaggerFragment() {
         if (imagesAdapter.currentList.isNullOrEmpty()) {
             imagesAdapter.submitList(list)
         } else {
-            val newList = imagesAdapter.currentList.toMutableList()
-            list?.let { newList.addAll(it) }
-            imagesAdapter.submitList(newList)
+            viewLifecycleOwner.lifecycleScope.launch {
+                withContext(Default) {
+                    val newList = imagesAdapter.currentList.toMutableList()
+                    list?.let { newList.addAll(it) }
+                    imagesAdapter.submitList(newList)
+                }
+            }
         }
     }
+
 }
