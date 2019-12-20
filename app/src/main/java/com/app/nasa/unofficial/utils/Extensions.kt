@@ -21,3 +21,13 @@ fun <T> Publisher<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this) 
 
 fun <T : Any?> Observable<T>.toLiveData(strategy: BackpressureStrategy = BackpressureStrategy.LATEST) =
     toFlowable(strategy).toLiveData()
+
+fun <T> List<T>.combineWith(list: List<T>?): List<T> {
+    var newList = emptyList<T>()
+    if (!list.isNullOrEmpty()) {
+        newList = this.toMutableList()
+        newList.addAll(list)
+        return newList.toList()
+    }
+    return newList
+}

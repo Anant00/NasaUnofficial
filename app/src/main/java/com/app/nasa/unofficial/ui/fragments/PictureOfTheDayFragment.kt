@@ -92,9 +92,7 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
         } else {
             viewLifecycleOwner.lifecycleScope.launch {
                 withContext(Default) {
-                    val newList = imagesAdapter.currentList.toMutableList()
-                    list?.let { newList.addAll(it) }
-                    imagesAdapter.submitList(newList)
+                    imagesAdapter.submitList(imagesAdapter.currentList.combineWith(list))
                 }
             }
         }
