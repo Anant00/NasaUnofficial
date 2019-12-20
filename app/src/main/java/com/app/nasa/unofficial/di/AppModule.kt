@@ -68,10 +68,5 @@ class AppModule {
             return DateRangeUtils.getDaysBackDate()
         }
 
-        @Provides
-        @JvmStatic
-        fun provideImageAdapter(): ImagesAdapter {
-            return ImagesAdapter()
-        }
     }
 }

@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.databinding.FragmentPictureofthedayBinding
 import com.app.nasa.unofficial.ui.adapters.ImagesAdapter
-import com.app.nasa.unofficial.utils.EndlessScroll
-import com.app.nasa.unofficial.utils.Resource
-import com.app.nasa.unofficial.utils.Status
-import com.app.nasa.unofficial.utils.showLog
+import com.app.nasa.unofficial.utils.*
 import com.app.nasa.unofficial.viewmodel.MainViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.Dispatchers.Default
@@ -23,13 +20,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class PictureOfTheDayFragment : DaggerFragment() {
+class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     private lateinit var binding: FragmentPictureofthedayBinding
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mainViewModel: MainViewModel
-    @Inject
-    lateinit var imagesAdapter: ImagesAdapter
+    private lateinit var imagesAdapter: ImagesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +38,8 @@ class PictureOfTheDayFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        imagesAdapter = ImagesAdapter(this)
+
         setRecyclerView()
         onLoadMore()
         setViewModel()
@@ -102,6 +100,10 @@ class PictureOfTheDayFragment : DaggerFragment() {
                 }
             }
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        showLog("Item clicked $position")
     }
 
 }

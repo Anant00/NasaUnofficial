@@ -3,8 +3,10 @@ package com.app.nasa.unofficial.ui.adapters
 import androidx.recyclerview.widget.DiffUtil
 import com.app.nasa.unofficial.R
 import com.app.nasa.unofficial.api.apimodel.NasaImages
+import com.app.nasa.unofficial.utils.OnRecyclerViewItemClick
 
-class ImagesAdapter : DataBindingAdapter<NasaImages>(DiffCallBack()) {
+class ImagesAdapter(clickListener: OnRecyclerViewItemClick) :
+    DataBindingAdapter<NasaImages>(DiffCallBack(), clickListener) {
 
     class DiffCallBack : DiffUtil.ItemCallback<NasaImages>() {
         override fun areItemsTheSame(oldItem: NasaImages, newItem: NasaImages): Boolean {
