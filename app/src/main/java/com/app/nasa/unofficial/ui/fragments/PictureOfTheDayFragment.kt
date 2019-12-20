@@ -8,20 +8,22 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.databinding.FragmentPictureofthedayBinding
 import com.app.nasa.unofficial.ui.adapters.ImagesAdapter
-import com.app.nasa.unofficial.utils.*
+import com.app.nasa.unofficial.utils.EndlessScroll
+import com.app.nasa.unofficial.utils.OnRecyclerViewItemClick
+import com.app.nasa.unofficial.utils.Resource
+import com.app.nasa.unofficial.utils.Status
+import com.app.nasa.unofficial.utils.combineWith
+import com.app.nasa.unofficial.utils.showLog
 import com.app.nasa.unofficial.viewmodel.MainViewModel
 import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers.Default
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     private lateinit var binding: FragmentPictureofthedayBinding
@@ -90,11 +92,11 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     }
 
     private fun setData(list: List<NasaImages>?) {
-        if (imagesAdapter.currentList.isNullOrEmpty()) {
-            imagesAdapter.submitList(list)
-        } else {
-            viewLifecycleOwner.lifecycleScope.launch {
-                withContext(Default) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(Default) {
+                if (imagesAdapter.currentList.isNullOrEmpty()) {
+                    imagesAdapter.submitList(list)
+                } else {
                     imagesAdapter.submitList(imagesAdapter.currentList.combineWith(list))
                 }
             }
@@ -102,7 +104,6 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     }
 
     override fun onItemClick(position: Int) {
-        showLog("Item clicked $position")
-    }
 
+    }
 }
