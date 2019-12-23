@@ -1,7 +1,6 @@
 package com.app.nasa.unofficial.ui.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.app.nasa.unofficial.R
 import com.app.nasa.unofficial.databinding.ActivityMainBinding
@@ -9,8 +8,9 @@ import com.app.nasa.unofficial.ui.adapters.MARS_FRAGMENT_INDEX
 import com.app.nasa.unofficial.ui.adapters.POD_FRAGMENT_INDEX
 import com.app.nasa.unofficial.ui.adapters.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 

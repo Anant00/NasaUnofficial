@@ -104,6 +104,5 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     }
 
     override fun onItemClick(position: Int) {
-
     }
 }

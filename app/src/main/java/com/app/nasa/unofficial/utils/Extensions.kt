@@ -3,6 +3,7 @@ package com.app.nasa.unofficial.utils
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import io.reactivex.BackpressureStrategy
@@ -22,6 +23,7 @@ fun <T> Publisher<T>.toLiveData() = LiveDataReactiveStreams.fromPublisher(this) 
 fun <T : Any?> Observable<T>.toLiveData(strategy: BackpressureStrategy = BackpressureStrategy.LATEST) =
     toFlowable(strategy).toLiveData()
 
+@WorkerThread
 fun <T> List<T>.combineWith(list: List<T>?): List<T> {
     var newList = emptyList<T>()
     if (!list.isNullOrEmpty()) {
