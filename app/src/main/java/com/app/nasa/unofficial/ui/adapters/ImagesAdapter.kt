@@ -4,8 +4,9 @@ import androidx.recyclerview.widget.DiffUtil
 import com.app.nasa.unofficial.R
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.utils.OnRecyclerViewItemClick
+import javax.inject.Inject
 
-class ImagesAdapter(clickListener: OnRecyclerViewItemClick) :
+class ImagesAdapter @Inject constructor(clickListener: OnRecyclerViewItemClick) :
     DataBindingAdapter<NasaImages>(DiffCallBack(), clickListener) {
 
     class DiffCallBack : DiffUtil.ItemCallback<NasaImages>() {

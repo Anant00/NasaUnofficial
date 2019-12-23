@@ -1,4 +1,4 @@
-package com.app.nasa.unofficial.main
+package com.app.nasa.unofficial.di.main
 
 import javax.inject.Scope
 

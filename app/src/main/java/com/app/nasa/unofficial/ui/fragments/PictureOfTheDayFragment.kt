@@ -30,7 +30,8 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mainViewModel: MainViewModel
-    private val imagesAdapter by lazy { ImagesAdapter(this) }
+    @Inject
+    lateinit var imagesAdapter: ImagesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
