@@ -1,43 +1,49 @@
 package com.app.nasa.unofficial.utils
 
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
+import java.util.*
 
 object DateRangeUtils {
 
+    val dateFormat by lazy {
+        SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    }
+
     fun getTodayDate(): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        dateFormat.timeZone = TimeZone.getTimeZone("America/California")
-        val date = Date()
-        return dateFormat.format(date)
-    }
-
-    fun getDaysBackDate(): String {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT-8"))
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DAY_OF_MONTH, -30)
-        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        formatter.timeZone = TimeZone.getTimeZone("America/California")
-        return formatter.format(cal.time)
+        return dateFormat.format(cal.time)
     }
 
-    private fun getNewDates(startDate: String, daysAgo: Int): String {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    fun getOneMonthOldDate(): String {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT-8"))
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.MONTH, -1)
+        return dateFormat.format(cal.time)
+    }
+
+    fun getNewDates(startDate: String, days: Int): String {
         val date = dateFormat.parse(startDate)
-        val cal: Calendar = Calendar.getInstance()
-        cal.time = date!!
-        cal.add(Calendar.DAY_OF_MONTH, -daysAgo)
-        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        return formatter.format(cal.time)
+        val cal = Calendar.getInstance()
+        date?.let {
+            cal.time = it
+        }
+        cal.add(Calendar.DAY_OF_MONTH, days)
+        return dateFormat.format(cal.time)
     }
 
     fun updateDate(oldStartDate: String): DateObj {
-        val newEndDate = getNewDates(oldStartDate, 1)
-        val newStartDate = getNewDates(oldStartDate, 16)
+        val newStartDate = getNewDates(oldStartDate, -16)
+        val newEndDate = getNewDates(oldStartDate, -1)
         return DateObj(newStartDate, newEndDate)
     }
 
-    data class DateObj(var startDate: String, var endDate: String)
+    fun updateDates(latestEndDate: String): DateObj {
+        val newDates = updateDate(latestEndDate)
+        val newStartDate = newDates.newStartDate
+        val newEndDate = newDates.newEndDate
+        return DateObj(newStartDate, newEndDate)
+    }
+
+    data class DateObj(var newStartDate: String, var newEndDate: String)
 }

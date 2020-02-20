@@ -1,5 +1,6 @@
 package com.app.nasa.unofficial.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,31 +8,26 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.databinding.FragmentPictureofthedayBinding
+import com.app.nasa.unofficial.ui.activity.DetailActivity
 import com.app.nasa.unofficial.ui.adapters.ImagesAdapter
-import com.app.nasa.unofficial.utils.EndlessScroll
-import com.app.nasa.unofficial.utils.OnRecyclerViewItemClick
-import com.app.nasa.unofficial.utils.Resource
-import com.app.nasa.unofficial.utils.Status
-import com.app.nasa.unofficial.utils.combineWith
-import com.app.nasa.unofficial.utils.showLog
+import com.app.nasa.unofficial.utils.*
 import com.app.nasa.unofficial.viewmodel.MainViewModel
+import com.squareup.picasso.Picasso
 import dagger.android.support.DaggerFragment
-import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers.Default
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     private lateinit var binding: FragmentPictureofthedayBinding
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mainViewModel: MainViewModel
-    @Inject
-    lateinit var imagesAdapter: ImagesAdapter
+    private val imagesAdapter: ImagesAdapter by lazy { ImagesAdapter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,9 +46,11 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
     }
 
     private fun setRecyclerView() {
-        binding.recyclerViewImages.setItemViewCacheSize(100)
-        binding.recyclerViewImages.setHasFixedSize(true)
-        binding.recyclerViewImages.adapter = imagesAdapter
+        binding.recyclerViewImages.apply {
+            setItemViewCacheSize(100)
+            setHasFixedSize(true)
+            adapter = imagesAdapter
+        }
     }
 
     private fun setViewModel() {
@@ -62,48 +60,62 @@ class PictureOfTheDayFragment : DaggerFragment(), OnRecyclerViewItemClick {
             showData(it)
         })
         mainViewModel.loadMoreData.observe(viewLifecycleOwner, Observer {
-            binding.loadingMore = true
-            showData(it)
+            if (it.status == Status.SUCCESS || it.status == Status.ERROR) {
+                binding.loadingMore = false
+            }
         })
     }
 
     private fun showData(resource: Resource<List<NasaImages>>?) {
         when (resource?.status) {
+
             Status.SUCCESS -> {
-                setData(resource.data)
+                CoroutineScope(IO).launch {
+                    imagesAdapter.submitList(resource.data)
+                }
                 binding.loadingMore = false
             }
+
             Status.ERROR -> {
                 showLog(resource.message)
                 binding.loadingMore = false
             }
+
             Status.LOADING -> {
-                showLog(resource.message)
+                if (!resource.data.isNullOrEmpty()) {
+                    binding.resource = Resource.success(resource)
+                    CoroutineScope(IO).launch {
+                        imagesAdapter.submitList(resource.data)
+                    }
+                }
             }
         }
+
     }
 
     private fun onLoadMore() {
         val layoutManager = binding.recyclerViewImages.layoutManager as StaggeredGridLayoutManager
         binding.recyclerViewImages.addOnScrollListener(object : EndlessScroll(layoutManager) {
             override fun onLoadMore(current_page: Int) {
+                binding.loadingMore = true
                 mainViewModel.incrementPage(current_page)
             }
         })
     }
 
-    private fun setData(list: List<NasaImages>?) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            withContext(Default) {
-                if (imagesAdapter.currentList.isNullOrEmpty()) {
-                    imagesAdapter.submitList(list)
-                } else {
-                    imagesAdapter.submitList(imagesAdapter.currentList.combineWith(list))
-                }
-            }
+    override fun onItemClick(position: Int) {
+        context?.let {
+            startActivity(
+                Intent(it, DetailActivity::class.java)
+                    .putExtra("data", IntentUtil(imagesAdapter.currentList))
+                    .putExtra("position", position)
+            )
+            activity?.overridePendingTransition(0, 0)
         }
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onDestroy() {
+        super.onDestroy()
+        Picasso.get().cancelTag("image")
     }
 }

@@ -8,6 +8,11 @@ class NetworkRepoTest {
 
     @Test
     fun date_isToday() {
-        Assert.assertEquals(DateRangeUtils.getDaysBackDate(), "2019-11-08")
+        Assert.assertEquals(DateRangeUtils.getOneMonthOldDate(), "2019-11-08")
+    }
+
+    @Test
+    fun `today date must be equal to US California's current date`() {
+        Assert.assertEquals(DateRangeUtils.getTodayDate(), "2020-01-23")
     }
 }

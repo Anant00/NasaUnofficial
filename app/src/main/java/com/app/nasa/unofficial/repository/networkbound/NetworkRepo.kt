@@ -4,12 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.app.nasa.unofficial.api.apimodel.NasaImages
 import com.app.nasa.unofficial.api.apiservice.Api
-import com.app.nasa.unofficial.utils.DateRangeUtils
+import com.app.nasa.unofficial.db.ImagesDao
+import com.app.nasa.unofficial.utils.DateRangeUtils.updateDates
 import com.app.nasa.unofficial.utils.Resource
+import com.app.nasa.unofficial.utils.Status
 import com.app.nasa.unofficial.utils.toLiveData
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.pow
@@ -18,11 +25,35 @@ class NetworkRepo
 @Inject constructor(
     private val api: Api,
     private var startDate: String,
-    private var endDate: String
+    private var endDate: String,
+    private val imagesDao: ImagesDao
 ) {
-    fun fetchImages(): LiveData<Resource<List<NasaImages>>> {
+
+    fun loadData(): LiveData<Resource<List<NasaImages>>> {
+        return object : NetworkBoundResources<List<NasaImages>, List<NasaImages>>() {
+            override fun saveDataInLocalDb(item: List<NasaImages>?) {
+                CoroutineScope(IO).launch {
+                    item?.let { imagesDao.insertAll(it) }
+                }
+            }
+
+            override fun shouldFetch(data: List<NasaImages>?): Boolean {
+                return data.isNullOrEmpty() || data[0].date != endDate
+            }
+
+            override fun loadFromDb(): Flow<List<NasaImages>> {
+                return imagesDao.getAllImagesFromDatabase().distinctUntilChanged()
+            }
+
+            override fun fetchFromNetwork(): LiveData<Resource<List<NasaImages>>> {
+                return fetchImages()
+            }
+
+        }.toLiveData()
+    }
+
+    private fun fetchImages(): LiveData<Resource<List<NasaImages>>> {
         val nasaImages: MediatorLiveData<Resource<List<NasaImages>>> = MediatorLiveData()
-        nasaImages.postValue(Resource.loading("", null))
         val source = api.getImages(
             startDate = startDate,
             endDate = endDate
@@ -75,12 +106,21 @@ class NetworkRepo
         return nasaImages
     }
 
-    fun loadNewData(): LiveData<Resource<List<NasaImages>>> {
-        val newDates = DateRangeUtils.updateDate(startDate)
-        val newStartDate = newDates.startDate
-        val newEndDate = newDates.endDate
-        this.startDate = newStartDate
-        this.endDate = newEndDate
-        return fetchImages()
+    fun loadMoreData(): LiveData<Resource<List<NasaImages>>> {
+        val latestEndDateFromDatabase = imagesDao.getLatestDateFromDatabase()
+        val dates = updateDates(latestEndDateFromDatabase)
+        this.startDate = dates.newStartDate
+        this.endDate = dates.newEndDate
+        val resource = MediatorLiveData<Resource<List<NasaImages>>>()
+        val data = fetchImages()
+        resource.addSource(data) {
+            CoroutineScope(IO).launch {
+                if (it.status == Status.SUCCESS) {
+                    it.data?.let { imagesDao.insertAll(it) }
+                }
+                resource.postValue(it)
+            }
+        }
+        return resource
     }
 }
