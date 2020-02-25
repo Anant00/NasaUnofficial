@@ -1,7 +1,10 @@
 package com.app.nasa.unofficial.utils
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.Log
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
@@ -32,4 +35,11 @@ fun <T> List<T>.combineWith(list: List<T>?): List<T> {
         return newList.toList()
     }
     return newList
+}
+
+fun ImageView.setLayoutHeight(): LinearLayout.LayoutParams {
+    val height: Int = Resources.getSystem().displayMetrics.heightPixels
+    val layoutParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(this.layoutParams)
+    layoutParams.height = (height * 25) / 100
+    return layoutParams
 }

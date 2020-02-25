@@ -7,6 +7,10 @@
     <data>
 
         <variable
+            name="height"
+            type="android.widget.LinearLayout.LayoutParams" />
+
+        <variable
             name="item"
             type="com.app.nasa.unofficial.api.apimodel.NasaImages" />
     </data>
@@ -21,6 +25,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:height="@{height}"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             app:imageUrl="@{item.url}"

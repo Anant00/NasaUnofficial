@@ -20,14 +20,12 @@ constructor(private val repo: NetworkRepo) : ViewModel() {
     }
 
     val loadInitialData = liveData(IO) {
-        val data = repo.loadData()
-        emitSource(data)
+        emitSource(repo.loadData())
     }
 
     val loadMoreData = _page.switchMap {
         liveData(IO) {
-            val data = repo.loadMoreData()
-            emitSource(data)
+            emitSource(repo.loadMoreData())
         }
     }
 

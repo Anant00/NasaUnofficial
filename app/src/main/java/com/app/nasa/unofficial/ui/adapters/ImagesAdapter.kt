@@ -3,10 +3,10 @@ package com.app.nasa.unofficial.ui.adapters
 import androidx.recyclerview.widget.DiffUtil
 import com.app.nasa.unofficial.R
 import com.app.nasa.unofficial.api.apimodel.NasaImages
-import com.app.nasa.unofficial.utils.OnRecyclerViewItemClick
+import com.app.nasa.unofficial.utils.OnItemClick
 import javax.inject.Inject
 
-class ImagesAdapter @Inject constructor(clickListener: OnRecyclerViewItemClick) :
+class ImagesAdapter @Inject constructor(clickListener: OnItemClick) :
     DataBindingAdapter<NasaImages>(DiffCallBack(), clickListener) {
 
     class DiffCallBack : DiffUtil.ItemCallback<NasaImages>() {
@@ -15,7 +15,7 @@ class ImagesAdapter @Inject constructor(clickListener: OnRecyclerViewItemClick) 
         }
 
         override fun areContentsTheSame(oldItem: NasaImages, newItem: NasaImages): Boolean {
-            return oldItem.date == newItem.date
+            return oldItem == newItem
         }
     }
 

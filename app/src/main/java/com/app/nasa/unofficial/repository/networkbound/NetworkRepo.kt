@@ -38,6 +38,12 @@ class NetworkRepo
             }
 
             override fun shouldFetch(data: List<NasaImages>?): Boolean {
+                if (!data.isNullOrEmpty()) {
+                    CoroutineScope(IO).launch {
+                        startDate = imagesDao.getEndDateFromDb()
+                        endDate = startDate
+                    }
+                }
                 return data.isNullOrEmpty() || data[0].date != endDate
             }
 
@@ -107,8 +113,8 @@ class NetworkRepo
     }
 
     fun loadMoreData(): LiveData<Resource<List<NasaImages>>> {
-        val latestEndDateFromDatabase = imagesDao.getLatestDateFromDatabase()
-        val dates = updateDates(latestEndDateFromDatabase)
+        val endDateFromDatabase = imagesDao.getStartDateFromDb()
+        val dates = updateDates(endDateFromDatabase)
         this.startDate = dates.newStartDate
         this.endDate = dates.newEndDate
         val resource = MediatorLiveData<Resource<List<NasaImages>>>()
@@ -122,5 +128,9 @@ class NetworkRepo
             }
         }
         return resource
+    }
+
+    fun getData(): String {
+        return "get data"
     }
 }

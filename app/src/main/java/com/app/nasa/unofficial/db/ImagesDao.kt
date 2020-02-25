@@ -27,6 +27,8 @@ interface ImagesDao {
     fun getAllData(): Flowable<List<NasaImages>>
 
     @Query("SELECT date FROM dailyImage ORDER BY date ASC LIMIT 1")
-    fun getLatestDateFromDatabase(): String
+    fun getStartDateFromDb(): String
 
+    @Query("SELECT date FROM dailyImage ORDER BY date DESC LIMIT 1")
+    fun getEndDateFromDb(): String
 }

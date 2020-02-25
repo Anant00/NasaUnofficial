@@ -1,5 +1,5 @@
 package com.app.nasa.unofficial.utils
 
-interface OnRecyclerViewItemClick {
+interface OnItemClick {
     fun onItemClick(position: Int)
 }

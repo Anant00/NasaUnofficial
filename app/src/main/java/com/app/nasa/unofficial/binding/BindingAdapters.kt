@@ -2,6 +2,7 @@ package com.app.nasa.unofficial.binding
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.databinding.BindingAdapter
 import com.app.nasa.unofficial.R
 import com.squareup.picasso.Callback
@@ -33,5 +34,11 @@ object BindingAdapters {
                 }
 
             })
+    }
+
+    @BindingAdapter("height")
+    @JvmStatic
+    fun setLayoutHeight(view: View, layoutParams: LinearLayout.LayoutParams) {
+        view.layoutParams = layoutParams
     }
 }

@@ -8,11 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.nasa.unofficial.BR
-import com.app.nasa.unofficial.utils.OnRecyclerViewItemClick
+import com.app.nasa.unofficial.events.EventBus
+import com.app.nasa.unofficial.events.PODFragmentClickEvents
+import com.app.nasa.unofficial.utils.OnItemClick
+import com.app.nasa.unofficial.utils.setLayoutHeight
+import kotlinx.android.synthetic.main.item_recyclerview_main.view.*
 
 abstract class DataBindingAdapter<T>(
     diffCallback: DiffUtil.ItemCallback<T>,
-    clickListener: OnRecyclerViewItemClick
+    clickListener: OnItemClick
 ) :
     ListAdapter<T, DataBindingAdapter.DataBindingViewHolder<T>>(diffCallback) {
     private val onItemClick = clickListener
@@ -21,23 +25,24 @@ abstract class DataBindingAdapter<T>(
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding =
             DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
-        return DataBindingViewHolder(binding, onItemClick)
+
+        val viewHolder: DataBindingViewHolder<T> = DataBindingViewHolder(binding)
+        binding.root.setOnClickListener {
+            onItemClick.onItemClick(viewHolder.adapterPosition)
+            EventBus.publish(PODFragmentClickEvents.OnRecyclerViewItemClick(viewHolder.adapterPosition))
+        }
+
+        binding.setVariable(BR.height, binding.root.image.setLayoutHeight())
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: DataBindingViewHolder<T>, position: Int) =
         holder.bind(getItem(position))
 
     class DataBindingViewHolder<T>(
-        private val binding: ViewDataBinding,
-        private val clickListener: OnRecyclerViewItemClick
+        private val binding: ViewDataBinding
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        init {
-            binding.root.setOnClickListener {
-                clickListener.onItemClick(adapterPosition)
-            }
-        }
-
         fun bind(item: T) {
             binding.setVariable(BR.item, item)
             binding.executePendingBindings()

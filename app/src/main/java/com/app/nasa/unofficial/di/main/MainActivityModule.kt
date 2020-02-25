@@ -2,7 +2,7 @@ package com.app.nasa.unofficial.di.main
 
 import com.app.nasa.unofficial.ui.adapters.ImagesAdapter
 import com.app.nasa.unofficial.ui.fragments.PictureOfTheDayFragment
-import com.app.nasa.unofficial.utils.OnRecyclerViewItemClick
+import com.app.nasa.unofficial.utils.OnItemClick
 import dagger.Module
 import dagger.Provides
 
@@ -15,14 +15,14 @@ class MainActivityModule {
         @MainScope
         @JvmStatic
         @Provides
-        fun provideRecyclerViewItemClickListener(): OnRecyclerViewItemClick {
+        fun provideRecyclerViewItemClickListener(): OnItemClick {
             return PictureOfTheDayFragment()
         }
 
         @MainScope
         @JvmStatic
         @Provides
-        fun provideImageAdapter(listener: OnRecyclerViewItemClick): ImagesAdapter {
+        fun provideImageAdapter(listener: OnItemClick): ImagesAdapter {
             return ImagesAdapter(listener)
         }
     }
