@@ -1,18 +1,24 @@
 package com.app.nasa.unofficial
 
-import com.app.nasa.unofficial.utils.DateRangeUtils
+import com.app.nasa.unofficial.repository.networkbound.NetworkRepo
 import org.junit.Assert
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
+import javax.inject.Inject
 
+@RunWith(MockitoJUnitRunner::class)
 class NetworkRepoTest {
 
-    @Test
-    fun date_isToday() {
-        Assert.assertEquals(DateRangeUtils.getOneMonthOldDate(), "2019-11-08")
-    }
+    @Mock
+    @Inject
+    lateinit var networkRepo: NetworkRepo
 
     @Test
-    fun `today date must be equal to US California's current date`() {
-        Assert.assertEquals(DateRangeUtils.getTodayDate(), "2020-01-23")
+    fun testing() {
+        Mockito.`when`(networkRepo.getData()).thenReturn("get data")
+        Assert.assertEquals(networkRepo.getData(), "get data")
     }
 }

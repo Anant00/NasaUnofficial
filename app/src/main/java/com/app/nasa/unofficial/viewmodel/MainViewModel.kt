@@ -11,11 +11,16 @@ class MainViewModel
 constructor(private val repo: NetworkRepo) : ViewModel() {
 
     private val _page = MutableLiveData<Int>()
-    private val initialPage = MutableLiveData<Int>()
+    val page: LiveData<Int>
+        get() = _page
+
+    private val _initialPage = MutableLiveData<Int>()
+    val initialPage: LiveData<Int>
+        get() = _initialPage
 
     init {
         viewModelScope.launch(IO) {
-            initialPage.postValue(0)
+            _initialPage.postValue(0)
         }
     }
 
@@ -34,4 +39,12 @@ constructor(private val repo: NetworkRepo) : ViewModel() {
             _page.postValue(page)
         }
     }
+
+    /* use only for testing... Use testCoroutineDispatchers in future and pass the dispatcher in
+        viewModel
+    */
+    val loadMoreDataOnMainThread = _page.switchMap {
+        repo.loadMoreData()
+    }
+
 }

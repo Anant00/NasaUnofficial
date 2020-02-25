@@ -38,12 +38,12 @@ class DateRangeUtilTest {
 
     @Test
     fun `subtract days from current date to get new date`() {
-        Assert.assertEquals(DateRangeUtils.getNewDates("2020-12-30", -5), "2020-12-25")
+        Assert.assertEquals(DateRangeUtils.getNewDates("2020-02-32", -1), "2020-12-25")
     }
 
     @Test
     fun `add date to current date`() {
-        Assert.assertEquals(DateRangeUtils.getNewDates("2020-01-30", +5), "2020-02-04")
+        Assert.assertEquals(DateRangeUtils.getNewDates("2020-02-23", +1), "2020-02-24")
     }
 
     @Test
